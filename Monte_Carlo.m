@@ -9,7 +9,7 @@ test2 = load('teste2.txt'); % Test dataset 2
 NP = 25; % Number of pixels per vector
 K = 3; % Number of clusters
 max_iterations = 100; % Max iterations for Lloyd's algorithm
-num_simulations = 50; % Number of Monte Carlo simulations
+num_simulations = 500; % Number of Monte Carlo simulations
 
 % Extract features and labels for test datasets
 test1_features = test1(:, 1:NP);
@@ -45,27 +45,32 @@ end
 
 
 
-%% 
+%% Displaying results
+
 % Aggregate results
 average_random = mean(results_random);
 std_random = std(results_random);
+max_random = max(results_random);
 
 average_kmeanspp = mean(results_kmeanspp);
 std_kmeanspp = std(results_kmeanspp);
+max_kmeanspp = max(results_kmeanspp);
 
 % Display results
 disp('Monte Carlo Simulation Results:');
 disp('Random Initialization:');
-fprintf('Accuracy: %.2f%% ± %.2f%%\n', average_random(1) * 100, std_random(1) * 100);
-fprintf('Precision: %.2f%% ± %.2f%%\n', average_random(2) * 100, std_random(2) * 100);
-fprintf('Recall: %.2f%% ± %.2f%%\n', average_random(3) * 100, std_random(3) * 100);
-fprintf('F1-Score: %.2f%% ± %.2f%%\n', average_random(4) * 100, std_random(4) * 100);
+fprintf('Accuracy: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_random(1) * 100, 2 * std_random(1) * 100, max_random(1) * 100);
+fprintf('Precision: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_random(2) * 100, 2 * std_random(2) * 100, max_random(2) * 100);
+fprintf('Recall: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_random(3) * 100, 2 * std_random(3) * 100, max_random(3) * 100);
+fprintf('F1-Score: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_random(4) * 100, 2 * std_random(4) * 100, max_random(4) * 100);
 
 disp('K-Means++ Initialization:');
-fprintf('Accuracy: %.2f%% ± %.2f%%\n', average_kmeanspp(1) * 100, std_kmeanspp(1) * 100);
-fprintf('Precision: %.2f%% ± %.2f%%\n', average_kmeanspp(2) * 100, std_kmeanspp(2) * 100);
-fprintf('Recall: %.2f%% ± %.2f%%\n', average_kmeanspp(3) * 100, std_kmeanspp(3) * 100);
-fprintf('F1-Score: %.2f%% ± %.2f%%\n', average_kmeanspp(4) * 100, std_kmeanspp(4) * 100);
+fprintf('Accuracy: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_kmeanspp(1) * 100, 2 * std_kmeanspp(1) * 100, max_kmeanspp(1) * 100);
+fprintf('Precision: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_kmeanspp(2) * 100, 2 * std_kmeanspp(2) * 100, max_kmeanspp(2) * 100);
+fprintf('Recall: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_kmeanspp(3) * 100, 2 * std_kmeanspp(3) * 100, max_kmeanspp(3) * 100);
+fprintf('F1-Score: %.2f%% ± %.2f%% (Max: %.2f%%)\n', average_kmeanspp(4) * 100, 2 * std_kmeanspp(4) * 100, max_kmeanspp(4) * 100);
+
+%% Plotting
 
 metrics = {'Accuracy', 'Precision', 'Recall', 'F1-Score'};
 x = categorical(metrics);
@@ -96,3 +101,5 @@ set(gca, 'TitleFontSizeMultiplier', 1.2); % Increase space for title
 ylim([0, max(mean_data(:) + std_data(:)) + 10]); % Add extra space above bars for clarity
 
 hold off;
+
+
